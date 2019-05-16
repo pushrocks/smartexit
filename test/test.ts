@@ -1,8 +1,12 @@
 import { expect, tap } from '@pushrocks/tapbundle';
-import * as smartexit from '../ts/index'
+import * as smartexit from '../ts/index';
 
 tap.test('first test', async () => {
-  console.log(smartexit.standardExport)
-})
+  smartexit;
+});
 
-tap.start()
+tap.test('should end processes upon SIGINT', async tools => {
+  await tools.delayFor(5000);
+});
+
+tap.start();
