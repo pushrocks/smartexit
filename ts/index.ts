@@ -2,8 +2,20 @@ import * as plugins from './smartexit.plugins';
 
 export class SmartExit {
   public processesToEnd = new plugins.lik.Objectmap<plugins.childProcess.ChildProcess>();
-  public async addProcess(childProcessArg: plugins.childProcess.ChildProcess) {
+  
+  /**
+   * adds a process to be exited
+   * @param childProcessArg
+   */
+  public addProcess(childProcessArg: plugins.childProcess.ChildProcess) {
     this.processesToEnd.add(childProcessArg);
+  }
+
+  /**
+   * removes a process to be exited
+   */
+  public removeProcess(childProcessArg: plugins.childProcess.ChildProcess) {
+    this.processesToEnd.remove(childProcessArg);
   }
 
   public async killAll() {
