@@ -2,7 +2,7 @@ import * as plugins from './smartexit.plugins';
 
 export class SmartExit {
   public processesToEnd = new plugins.lik.Objectmap<plugins.childProcess.ChildProcess>();
-  
+
   /**
    * adds a process to be exited
    * @param childProcessArg
