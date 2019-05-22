@@ -21,6 +21,7 @@
     "tslint-config-prettier": "^1.15.0"
   },
   "dependencies": {
-    "@pushrocks/lik": "^3.0.5"
+    "@pushrocks/lik": "^3.0.5",
+    "@pushrocks/smartdelay": "^2.0.3"
   }
 }
