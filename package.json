@@ -1,6 +1,6 @@
 {
   "name": "@pushrocks/smartexit",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "private": false,
   "description": "do things before one exists a process",
   "main": "dist/index.js",
