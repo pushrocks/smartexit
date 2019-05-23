@@ -24,14 +24,15 @@ export class SmartExit {
       console.log('found remaining child processes');
       let counter = 1;
       this.processesToEnd.forEach(async childProcessArg => {
-        console.log(`killing process #${counter}`);
+        const pid = childProcessArg.pid;
+        console.log(`killing process #${counter} with pid ${pid}`);
         plugins.smartdelay.delayFor(10000).then(() => {
           if (childProcessArg.killed) {
             return;
           }
-          childProcessArg.kill('SIGKILL');
-        })
-        childProcessArg.kill('SIGINT');
+          process.kill(-pid, 'SIGKILL');
+        });
+        process.kill(-pid, 'SIGINT');
         
         counter++;
       });
