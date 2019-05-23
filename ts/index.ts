@@ -19,13 +19,13 @@ export class SmartExit {
   }
 
   public async killAll() {
-    console.log('Checking for remaining child processes before exit...');
+    console.log('SMARTEXIT: Checking for remaining child processes before exit...');
     if (this.processesToEnd.getArray().length > 0) {
       console.log('found remaining child processes');
       let counter = 1;
       this.processesToEnd.forEach(async childProcessArg => {
         const pid = childProcessArg.pid;
-        console.log(`killing process #${counter} with pid ${pid}`);
+        console.log(`SMARTEXIT: killing process #${counter} with pid ${pid}`);
         plugins.smartdelay.delayFor(10000).then(() => {
           if (childProcessArg.killed) {
             return;
@@ -37,7 +37,7 @@ export class SmartExit {
         counter++;
       });
     } else {
-      console.log(`Everything looks clean. Ready to exit!`);
+      console.log(`SMARTEXIT: Everything looks clean. Ready to exit!`);
     }
   }
 
