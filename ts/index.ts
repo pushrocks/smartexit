@@ -43,20 +43,25 @@ export class SmartExit {
 
   constructor() {
     // do app specific cleaning before exiting
-    process.on('exit', async () => {
-      await this.killAll();
+    process.on('exit', async (code) => {
+      if (code === 0) {
+        console.log('SMARTEXIT: Process wants to exit');
+        await this.killAll();
+      }
     });
 
     // catch ctrl+c event and exit normally
     process.on('SIGINT', async () => {
-      console.log('Ctrl-C...');
+      console.log('SMARTEXIT: Ctrl-C... or SIGINT signal received!');
       await this.killAll();
     });
 
     //catch uncaught exceptions, trace, then exit normally
     process.on('uncaughtException', async err => {
-      console.log('Ctrl-C...');
+      console.log('SMARTEXIT: uncaught exception...');
+      console.log(err);
       await this.killAll();
+      process.exit(1);
     });
   }
 }
