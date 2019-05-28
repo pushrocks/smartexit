@@ -59,6 +59,7 @@ export class SmartExit {
     process.on('SIGINT', async () => {
       ora.text('Ctrl-C... or SIGINT signal received!');
       await this.killAll();
+      process.exit(0);
     });
 
     //catch uncaught exceptions, trace, then exit normally
