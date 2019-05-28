@@ -32,9 +32,9 @@ export class SmartExit {
           if (childProcessArg.killed) {
             return;
           }
-          process.kill(-pid, 'SIGKILL');
+          process.kill(pid, 'SIGKILL');
         });
-        process.kill(-pid, 'SIGINT');
+        process.kill(pid, 'SIGINT');
         
         counter++;
       });
@@ -66,6 +66,7 @@ export class SmartExit {
       ora.text('SMARTEXIT: uncaught exception...');
       console.log(err);
       await this.killAll();
+      process.exit(1);
     });
   }
 }
