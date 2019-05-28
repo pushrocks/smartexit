@@ -1,5 +1,7 @@
 import * as plugins from './smartexit.plugins';
 
+import { ora } from './smartexit.logging';
+
 export class SmartExit {
   public processesToEnd = new plugins.lik.Objectmap<plugins.childProcess.ChildProcess>();
 
@@ -19,13 +21,13 @@ export class SmartExit {
   }
 
   public async killAll() {
-    console.log('SMARTEXIT: Checking for remaining child processes before exit...');
+    ora.text('Checking for remaining child processes before exit...');
     if (this.processesToEnd.getArray().length > 0) {
-      console.log('found remaining child processes');
+      ora.text('found remaining child processes');
       let counter = 1;
       this.processesToEnd.forEach(async childProcessArg => {
         const pid = childProcessArg.pid;
-        console.log(`SMARTEXIT: killing process #${counter} with pid ${pid}`);
+        ora.text(`killing process #${counter} with pid ${pid}`);
         plugins.smartdelay.delayFor(10000).then(() => {
           if (childProcessArg.killed) {
             return;
@@ -37,7 +39,7 @@ export class SmartExit {
         counter++;
       });
     } else {
-      console.log(`SMARTEXIT: Everything looks clean. Ready to exit!`);
+      ora.text(`Everything looks clean. Ready to exit!`);
     }
   }
 
@@ -45,23 +47,25 @@ export class SmartExit {
     // do app specific cleaning before exiting
     process.on('exit', async (code) => {
       if (code === 0) {
-        console.log('SMARTEXIT: Process wants to exit');
+        ora.text('Process wants to exit');
         await this.killAll();
       }
+      ora.finishSuccess('Exited ok!');
     });
 
     // catch ctrl+c event and exit normally
     process.on('SIGINT', async () => {
-      console.log('SMARTEXIT: Ctrl-C... or SIGINT signal received!');
+      ora.text('Ctrl-C... or SIGINT signal received!');
       await this.killAll();
+      ora.finishSuccess('Exited ok!');
     });
 
     //catch uncaught exceptions, trace, then exit normally
     process.on('uncaughtException', async err => {
-      console.log('SMARTEXIT: uncaught exception...');
+      ora.text('SMARTEXIT: uncaught exception...');
       console.log(err);
       await this.killAll();
-      process.exit(1);
+      ora.finishSuccess('Exited ok!');
     });
   }
 }

@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@pushrocks/lik": "^3.0.5",
-    "@pushrocks/smartdelay": "^2.0.3"
+    "@pushrocks/smartdelay": "^2.0.3",
+    "@pushrocks/smartlog-source-ora": "^1.0.7"
   }
 }
