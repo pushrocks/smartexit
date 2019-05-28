@@ -49,15 +49,16 @@ export class SmartExit {
       if (code === 0) {
         ora.text('Process wants to exit');
         await this.killAll();
+        ora.finishSuccess('Exited ok!');
+      } else {
+        ora.finishFail('Exited NOT OK!');
       }
-      ora.finishSuccess('Exited ok!');
     });
 
     // catch ctrl+c event and exit normally
     process.on('SIGINT', async () => {
       ora.text('Ctrl-C... or SIGINT signal received!');
       await this.killAll();
-      ora.finishSuccess('Exited ok!');
     });
 
     //catch uncaught exceptions, trace, then exit normally
@@ -65,7 +66,6 @@ export class SmartExit {
       ora.text('SMARTEXIT: uncaught exception...');
       console.log(err);
       await this.killAll();
-      ora.finishSuccess('Exited ok!');
     });
   }
 }
